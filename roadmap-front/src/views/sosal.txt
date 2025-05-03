@@ -1,0 +1,244 @@
+<template>
+  <div class="container">
+    <!-- Хедер -->
+    <header class="header">
+      <div class="logo-area">
+        <!-- Иконка -->
+        <svg class="logo-icon" width="32" height="32" viewBox="0 0 24 24" fill="none">
+          <path d="M3 5h18v14H3V5zm2 2v10h14V7H5z" fill="currentColor"/>
+        </svg>
+        <div class="logo-text">
+          <span class="logo-main">RoadMap</span>
+          <span class="logo-sub">Шаг за шагом</span>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <button class="nav-item active">Главная</button>
+        <button class="nav-item">Карта</button>
+        <button class="nav-item">Материалы</button>
+      </nav>
+
+      <button class="search-btn" aria-label="Поиск">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+          <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/>
+          <line x1="17" y1="17" x2="22" y2="22" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </header>
+
+    <!-- Секция предметов -->
+    <section class="subjects">
+      <h1>Предметы</h1>
+      <div class="cards">
+        <button
+          v-for="item in subjects"
+          :key="item.title"
+          class="card"
+          @click="onCardClick(item)"
+        >
+          <!-- Голова карточки -->
+          <div class="card-header">
+            <h2 class="card-title">{{ item.title }}</h2>
+            <p class="card-teacher">{{ item.teacher }}</p>
+            <p class="card-duration">{{ item.duration }}</p>
+          </div>
+          <!-- Прогресс -->
+          <div class="card-progress">
+            <div class="progress-bar">
+              <div
+                class="progress-fill"
+                :style="{ width: item.progress + '%' }"
+              ></div>
+              <div
+                class="progress-remaining"
+                :style="{ width: (100 - item.progress) + '%' }"
+              ></div>
+            </div>
+            <span class="progress-text">{{ item.progress }}%</span>
+          </div>
+        </button>
+      </div>
+    </section>
+
+    <!-- Футер -->
+    <footer class="footer">
+      AlmaU RoadMap
+    </footer>
+  </div>
+</template>
+
+<script setup>
+import { ref } from 'vue'
+
+const subjects = ref([
+  { title: 'ООП и алгоритмы',       teacher: 'Иванов И.',    duration: '12 недель', progress: 60 },
+  { title: 'Дискретная математика', teacher: 'Кукушкина М.', duration: '12 недель', progress: 80 },
+  { title: 'BackEnd and Data',      teacher: 'Тодов Ю.',     duration: '12 недель', progress: 74 },
+])
+
+function onCardClick(item) {
+  // сюда можно вписать логику клика по карточке
+  console.log('Clicked:', item)
+}
+</script>
+
+<style scoped>
+/* Общие стили */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+  font-family: Arial, sans-serif;
+  background: #f9f9f9;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+  padding: 16px 24px;
+  border-radius: 8px;
+  margin-bottom: 32px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.logo-area {
+  display: flex;
+  align-items: center;
+}
+.logo-icon {
+  color: #795ef5;
+}
+.logo-text {
+  display: flex;
+  flex-direction: column;
+  margin-left: 8px;
+}
+.logo-main {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #281c6f;
+}
+.logo-sub {
+  font-size: 0.875rem;
+  color: #888;
+}
+
+.nav {
+  display: flex;
+  gap: 12px;
+}
+.nav-item {
+  background: #fff;
+  border: 2px solid #281c6f;
+  border-radius: 20px;
+  padding: 6px 16px;
+  font-size: 0.9rem;
+  color: #281c6f;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.nav-item.active {
+  background: #281c6f;
+  color: #fff;
+}
+
+.search-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #281c6f;
+}
+
+/* Секция «Предметы» */
+.subjects h1 {
+  color: #281c6f;
+  font-size: 1.75rem;
+  margin-bottom: 16px;
+}
+
+/* Сетка карточек */
+.cards {
+  display: flex;
+  gap: 24px;
+}
+
+/* Карточка как кнопка */
+.card {
+  display: flex;
+  flex-direction: column;
+  width: 240px;
+  background: #fff;
+  border: 3px solid #795ef5;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  padding: 0;
+  transition: box-shadow 0.2s;
+}
+.card:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* Верхняя часть карточки */
+.card-header {
+  background: #795ef5;
+  color: #fff;
+  padding: 16px;
+}
+.card-title {
+  margin: 0 0 8px;
+  font-size: 1.1rem;
+}
+.card-teacher,
+.card-duration {
+  margin: 0;
+  font-size: 0.85rem;
+  opacity: 0.9;
+}
+
+/* Блок прогресса */
+.card-progress {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  gap: 12px;
+}
+.progress-bar {
+  position: relative;
+  flex: 1;
+  display: flex;
+  height: 16px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.progress-fill {
+  background: #43d7b6;
+  height: 100%;
+}
+.progress-remaining {
+  background: #000;
+  height: 100%;
+}
+.progress-text {
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #281c6f;
+}
+
+/* Футер */
+.footer {
+  margin-top: auto;
+  text-align: center;
+  padding: 12px 0;
+  color: #888;
+  font-size: 0.85rem;
+  border-top: 2px solid #795ef5;
+}
+</style>
